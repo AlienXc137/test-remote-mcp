@@ -2,7 +2,7 @@ from fastmcp import FastMCP
 import os
 import aiosqlite  # Changed: sqlite3 → aiosqlite
 import tempfile
-
+# Use local directory for the database
 DATA_DIR = "/data"
 os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -18,7 +18,6 @@ def init_db():  # Keep as sync for initialization
         # Use synchronous sqlite3 just for initialization
         import sqlite3
         with sqlite3.connect(DB_PATH) as c:
-            c.execute("PRAGMA journal_mode=WAL")
             c.execute("""
                 CREATE TABLE IF NOT EXISTS expenses(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +37,9 @@ def init_db():  # Keep as sync for initialization
         raise
 
 # Initialize database synchronously at module load
-init_db()
+@mcp.on_startup
+def startup():
+    init_db()
 
 @mcp.tool()
 async def add_expense(date, amount, category, subcategory="", note=""):  # Changed: added async
