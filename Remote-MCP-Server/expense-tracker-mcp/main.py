@@ -2,9 +2,12 @@ from fastmcp import FastMCP
 import os
 import aiosqlite  # Changed: sqlite3 → aiosqlite
 import tempfile
-# Use local directory for the database
-DB_PATH = os.path.join(os.path.dirname(__file__), "expenses.db")
-CATEGORIES_PATH = os.path.join(os.path.dirname(__file__), "categories.json")
+
+DATA_DIR = "/data"
+os.makedirs(DATA_DIR, exist_ok=True)
+
+DB_PATH = os.path.join(DATA_DIR, "expenses.db")
+CATEGORIES_PATH = os.path.join(DATA_DIR, "categories.json")
 
 print(f"Database path: {DB_PATH}")
 

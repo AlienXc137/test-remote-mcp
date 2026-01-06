@@ -16,6 +16,10 @@ SERVERS={
             "run",
             "C:\\Azhar\\mcp\\expense_tracker\\Local-MCP-Server\\calculator_mcp.py"
         ]
+    },
+    "expense": {
+        "transport":"streaming_http",
+        "url": "https://marvelsaz-mcp.fastmcp.app/mcp"
     }
 }
 
