@@ -3,11 +3,10 @@ import os
 import aiosqlite  # Changed: sqlite3 → aiosqlite
 import tempfile
 # Use local directory for the database
-DATA_DIR = "/data"
-os.makedirs(DATA_DIR, exist_ok=True)
-
-DB_PATH = os.path.join(DATA_DIR, "expenses.db")
-CATEGORIES_PATH = os.path.join(DATA_DIR, "categories.json")
+# Use temporary directory which should be writable
+TEMP_DIR = tempfile.gettempdir()
+DB_PATH = os.path.join(TEMP_DIR, "expenses.db")
+CATEGORIES_PATH = os.path.join(os.path.dirname(__file__), "categories.json")
 
 print(f"Database path: {DB_PATH}")
 
@@ -18,6 +17,7 @@ def init_db():  # Keep as sync for initialization
         # Use synchronous sqlite3 just for initialization
         import sqlite3
         with sqlite3.connect(DB_PATH) as c:
+            c.execute("PRAGMA journal_mode=WAL")
             c.execute("""
                 CREATE TABLE IF NOT EXISTS expenses(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
