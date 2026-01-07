@@ -9,16 +9,16 @@ load_dotenv()
 SERVERS={
     "calculator": {
         "transport":"stdio",
-        "command": "C:\\Users\\azhar\\.local\\bin\\uv",
+        "command": "C:/Users/azhar/.local/bin/uv",
         "args": [
             "run",
             "fastmcp",
             "run",
-            "C:\\Azhar\\mcp\\expense_tracker\\Local-MCP-Server\\calculator_mcp.py"
+            "C:/Azhar/mcp/expense_tracker/Local-MCP-Server/calculator_mcp.py"
         ]
     },
     "expense": {
-        "transport":"streaming_http",
+        "transport":"streamable_http",
         "url": "https://marvelsaz-mcp.fastmcp.app/mcp"
     }
 }
@@ -30,6 +30,8 @@ async def main():
     for tool in tools:
         named_tools[tool.name]=tool
        # print(named_tools)
+
+    print(f"Available tools: {list(named_tools.keys())}")
     
     llm =  ChatGoogleGenerativeAI(model="gemini-2.5-flash")
     llm_with_tools=llm.bind_tools(tools)
